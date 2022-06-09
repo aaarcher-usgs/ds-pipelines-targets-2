@@ -1,7 +1,6 @@
 library(targets)
-source("1_fetch/src/download_nwis_data.R")
-source("1_fetch/src/nwis_site_info.R")
 source("1_fetch/src/download_nwis_site_data.R")
+source("1_fetch/src/nwis_site_info.R")
 source("2_process/src/process_and_style.R")
 source("3_visualize/src/plot_timeseries.R")
 
@@ -12,7 +11,7 @@ tar_option_set(packages = c("tidyverse", "dataRetrieval")) # Loading tidyverse b
 parameterCd <- '00010'
 startDate <- "2014-05-01" 
 endDate <- "2015-05-01"
-#site_nums <- c("01427207", "01432160", "01436690", "01466500")
+
 
 # For each site, download data and write to csv
 #         Note: this feels inefficient and hard to scale up. How can we "loop" over
