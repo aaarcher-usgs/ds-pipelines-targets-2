@@ -1,3 +1,5 @@
+# This function processes the site data by joining it with site_info by site_no
+# and then cleans up several variables in preparation for plotting
 process_data <- function(site_data, site_info_file){
   
   # Read site info from csv and convert site_no to chr

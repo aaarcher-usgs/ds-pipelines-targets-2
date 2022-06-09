@@ -1,5 +1,5 @@
-
-
+# This function downloads data for a NWIS site and has a built in function to return an error
+# if the download fails.
 download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, out_dir){
   
   # readNWISdata is from the dataRetrieval package

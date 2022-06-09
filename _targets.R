@@ -57,6 +57,10 @@ p1_targets_list <- list(
           site_data_01436690,
           site_data_01466500)
   ),
+  #       Note: Is it "better" to save this as .csv here, return the file.path, and 
+  #           then re-read the csv downstream? That feels inefficient but if I return
+  #           the data (rather than file) then writing the .csv might be a "side-effect."
+  #           I also struggled with this above with the downloading data function
   tar_target(
     site_info_csv,
     nwis_site_info(fileout = "1_fetch/out/site_info.csv", site_data),
@@ -73,6 +77,7 @@ p2_targets_list <- list(
   )
 )
 
+# Create figure 1
 p3_targets_list <- list(
   tar_target(
     figure_1_png,
