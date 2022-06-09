@@ -1,19 +1,23 @@
-process_data <- function(nwis_data){
-  nwis_data_clean <- rename(nwis_data, water_temperature = X_00010_00000) %>% 
-    select(-agency_cd, -X_00010_00000_cd, -tz_cd)
+process_data <- function(site_data, site_info_file){
   
-  return(nwis_data_clean)
-}
-
-annotate_data <- function(site_data_clean, site_filename){
-  site_info <- read_csv(site_filename)
-  annotated_data <- left_join(site_data_clean, site_info, by = "site_no") %>% 
-    select(station_name = station_nm, site_no, dateTime, water_temperature, latitude = dec_lat_va, longitude = dec_long_va)
+  # Read site info from csv and convert site_no to chr
+  site_info <- read.csv(file.path(site_info_file))
+  site_info <- site_info %>% 
+    mutate(site_no = as.character(paste0("0",site_no)))
   
-  return(annotated_data)
+  # Join site info to site_data and clean up vars
+  
+  site_data_processed <- left_join(site_data, site_info, by = "site_no") %>% #merge
+    # rename vars for readability
+    rename(water_temperature = X_00010_00000,
+           station_name = station_nm,
+           latitude = dec_lat_va,
+           longitude = dec_long_va) %>%
+    # Change station name to factor for figure styling
+    mutate(station_name = as.factor(station_name))%>%
+    # Clean up data.frame to maintain only wanted vars
+    select(site_no, dateTime, water_temperature, latitude, longitude, station_name)
+  
+  return(site_data_processed)
 }
 
-
-style_data <- function(site_data_annotated){
-  mutate(site_data_annotated, station_name = as.factor(station_name))
-}

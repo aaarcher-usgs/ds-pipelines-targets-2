@@ -64,19 +64,12 @@ p1_targets_list <- list(
   )
 )
 
-# Targets to process data
+# Process and annotate site_data
 p2_targets_list <- list(
   tar_target(
-    site_data_clean, 
-    process_data(site_data)
-  ),
-  tar_target(
-    site_data_annotated,
-    annotate_data(site_data_clean, site_filename = site_info_csv)
-  ),
-  tar_target(
     site_data_styled,
-    style_data(site_data_annotated)
+    process_data(site_data = site_data, 
+                 site_info_file = site_info_csv)
   )
 )
 
