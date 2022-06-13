@@ -72,9 +72,11 @@ p1_targets_list <- list(
 # Process and annotate site_data
 p2_targets_list <- list(
   tar_target(
-    site_data_styled,
+    site_data_styled_Rdata,
     process_data(site_data = site_data, 
-                 site_info_file = site_info_csv)
+                 site_info_file = site_info_csv,
+                 out_file = "2_process/out/processed_data.Rdata"),
+    format = "file"
   )
 )
 
@@ -82,7 +84,8 @@ p2_targets_list <- list(
 p3_targets_list <- list(
   tar_target(
     figure_1_png,
-    plot_nwis_timeseries(fileout = "3_visualize/out/figure_1.png", site_data_styled),
+    plot_nwis_timeseries(fileout = "3_visualize/out/figure_1.png", 
+                         in_file = site_data_styled_Rdata),
     format = "file"
   )
 )

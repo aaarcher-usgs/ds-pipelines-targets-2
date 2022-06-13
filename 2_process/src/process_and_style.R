@@ -1,6 +1,6 @@
 # This function processes the site data by joining it with site_info by site_no
 # and then cleans up several variables in preparation for plotting
-process_data <- function(site_data, site_info_file){
+process_data <- function(site_data, site_info_file, out_file){
   
   # Read site info from csv and convert site_no to chr
   site_info <- readr::read_csv(site_info_file)
@@ -18,6 +18,9 @@ process_data <- function(site_data, site_info_file){
     # Clean up data.frame to maintain only wanted vars
     select(site_no, dateTime, water_temperature, latitude, longitude, station_name)
   
-  return(site_data_processed)
+  # Write processed data as .Rdata
+  save(site_data_processed, file = out_file)
+  
+  return(out_file)
 }
 
