@@ -1,6 +1,6 @@
 # This function downloads data for a NWIS site and has a built in function to return an error
 # if the download fails.
-download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, out_dir){
+download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, out_file){
   
   # readNWISdata is from the dataRetrieval package
   data_out <- readNWISdata(sites=site_num, service="iv", 
@@ -15,7 +15,7 @@ download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, o
   }
   # -- end of do-not-edit block
   
- readr::write_csv(data_out, file = file.path(out_dir))
+ readr::write_csv(data_out, file = file.path(out_file))
  return(out_dir)
 }
 

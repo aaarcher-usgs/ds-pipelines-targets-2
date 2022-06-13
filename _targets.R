@@ -23,7 +23,7 @@ p1_targets_list <- list(
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207')),
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207')),
     format = "file"
   ),
   tar_target(
@@ -32,7 +32,7 @@ p1_targets_list <- list(
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160')),
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160')),
     format = "file"
   ),
   tar_target(
@@ -41,7 +41,7 @@ p1_targets_list <- list(
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690')),
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690')),
     format = "file"
   ),
   tar_target(
@@ -50,7 +50,7 @@ p1_targets_list <- list(
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500')),
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500')),
     format = "file"
   ),
   tar_target(
