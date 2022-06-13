@@ -18,50 +18,51 @@ endDate <- "2015-05-01"
 #               multiple sites without making a target specified to each individually?
 p1_targets_list <- list(
   tar_target(
-    site_data_01427207, 
+    site_data_01427207_csv, 
     download_nwis_site_data(site_num = "01427207",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = "1_fetch/out/"),
+                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207')),
+    format = "file"
   ),
   tar_target(
-    site_data_01432160,
+    site_data_01432160_csv,
     download_nwis_site_data(site_num = "01432160",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = "1_fetch/out/"),
+                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160')),
+    format = "file"
   ),
   tar_target(
-    site_data_01436690,
+    site_data_01436690_csv,
     download_nwis_site_data(site_num = "01436690",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = "1_fetch/out/"),
+                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690')),
+    format = "file"
   ),
   tar_target(
-    site_data_01466500,
+    site_data_01466500_csv,
     download_nwis_site_data(site_num = "01466500",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_dir = "1_fetch/out/"),
+                            out_dir = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500')),
+    format = "file"
   ),
   tar_target(
     # Merge data from all sites
     site_data,
-    rbind(site_data_01427207,
-          site_data_01432160,
-          site_data_01436690,
-          site_data_01466500)
+    lapply(c(site_data_01427207_csv, 
+             site_data_01432160_csv,
+             site_data_01436690_csv,
+             site_data_01466500_csv), readr::read_csv) %>% bind_rows()
   ),
-  #       Note: Is it "better" to save this as .csv here, return the file.path, and 
-  #           then re-read the csv downstream? That feels inefficient but if I return
-  #           the data (rather than file) then writing the .csv might be a "side-effect."
-  #           I also struggled with this above with the downloading data function
   tar_target(
+    # Download pertinent site information for each site
     site_info_csv,
     nwis_site_info(fileout = "1_fetch/out/site_info.csv", site_data),
     format = "file"
