@@ -3,7 +3,7 @@
 process_data <- function(site_data, site_info_file){
   
   # Read site info from csv and convert site_no to chr
-  site_info <- read.csv(file.path(site_info_file))
+  site_info <- readr::read_csv(file.path(site_info_file))
   site_info <- site_info %>% 
     mutate(site_no = as.character(paste0("0",site_no)))
   
