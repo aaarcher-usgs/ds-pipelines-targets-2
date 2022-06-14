@@ -1,6 +1,7 @@
 library(targets)
 source("1_fetch/src/download_nwis_site_data.R")
 source("1_fetch/src/nwis_site_info.R")
+source("1_fetch/src/bind_site_data.R")
 source("2_process/src/process_and_style.R")
 source("3_visualize/src/plot_timeseries.R")
 
@@ -18,53 +19,52 @@ endDate <- "2015-05-01"
 #               multiple sites without making a target specified to each individually?
 p1_targets_list <- list(
   tar_target(
-    site_data_01427207_csv, 
+    site_data_01427207, 
     download_nwis_site_data(site_num = "01427207",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207')),
-    format = "file"
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207'))
   ),
   tar_target(
-    site_data_01432160_csv,
+    site_data_01432160,
     download_nwis_site_data(site_num = "01432160",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160')),
-    format = "file"
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160'))
   ),
   tar_target(
-    site_data_01436690_csv,
+    site_data_01436690,
     download_nwis_site_data(site_num = "01436690",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690')),
-    format = "file"
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690'))
   ),
   tar_target(
-    site_data_01466500_csv,
+    site_data_01466500,
     download_nwis_site_data(site_num = "01466500",
                             parameterCd = parameterCd,
                             startDate = startDate,
                             endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500')),
-    format = "file"
+                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500'))
   ),
   tar_target(
     # Merge data from all sites
-    site_data,
-    lapply(c(site_data_01427207_csv, 
-             site_data_01432160_csv,
-             site_data_01436690_csv,
-             site_data_01466500_csv), readr::read_csv) %>% bind_rows()
+    site_data_csv,
+    bind_site_data(in1 = site_data_01427207, 
+                   in2 = site_data_01432160,
+                   in3 = site_data_01436690,
+                   in4 = site_data_01466500,
+                   out_file = "1_fetch/out/nwis_site_data.csv"),
+    format = "file"
   ),
   tar_target(
     # Download pertinent site information for each site
     site_info_csv,
-    nwis_site_info(fileout = "1_fetch/out/site_info.csv", site_data),
+    nwis_site_info(fileout = "1_fetch/out/site_info.csv", 
+                   site_data_file = site_data_csv),
     format = "file"
   )
 )
@@ -73,7 +73,7 @@ p1_targets_list <- list(
 p2_targets_list <- list(
   tar_target(
     site_data_styled_Rdata,
-    process_data(site_data = site_data, 
+    process_data(site_data_file = site_data_csv, 
                  site_info_file = site_info_csv,
                  out_file = "2_process/out/processed_data.Rdata"),
     format = "file"

@@ -1,9 +1,11 @@
 # This function processes the site data by joining it with site_info by site_no
 # and then cleans up several variables in preparation for plotting
-process_data <- function(site_data, site_info_file, out_file){
+process_data <- function(site_data_file, site_info_file, out_file){
   
-  # Read site info from csv and convert site_no to chr
+  # Read site info from csv 
   site_info <- readr::read_csv(site_info_file)
+  
+  site_data <- readr::read_csv(site_data_file)
   
   # Join site info to site_data and clean up vars
   
