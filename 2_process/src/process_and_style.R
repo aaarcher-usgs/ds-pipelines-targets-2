@@ -3,9 +3,9 @@
 process_data <- function(site_data_file, site_info_file, out_file){
   
   # Read site info from csv 
-  site_info <- readr::read_csv(site_info_file)
+  site_info <- readr::read_csv(site_info_file, show_col_types = F)
   
-  site_data <- readr::read_csv(site_data_file)
+  site_data <- readr::read_csv(site_data_file, show_col_types = F)
   
   # Join site info to site_data and clean up vars
   
@@ -21,7 +21,7 @@ process_data <- function(site_data_file, site_info_file, out_file){
     select(site_no, dateTime, water_temperature, latitude, longitude, station_name)
   
   # Write processed data as .Rdata
-  save(site_data_processed, file = out_file)
+  saveRDS(site_data_processed, file = out_file)
   
   return(out_file)
 }

@@ -23,47 +23,43 @@ p1_targets_list <- list(
     download_nwis_site_data(site_num = "01427207",
                             parameterCd = parameterCd,
                             startDate = startDate,
-                            endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01427207'))
+                            endDate = endDate)
   ),
   tar_target(
     site_data_01432160,
     download_nwis_site_data(site_num = "01432160",
                             parameterCd = parameterCd,
                             startDate = startDate,
-                            endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01432160'))
+                            endDate = endDate)
   ),
   tar_target(
     site_data_01436690,
     download_nwis_site_data(site_num = "01436690",
                             parameterCd = parameterCd,
                             startDate = startDate,
-                            endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01436690'))
+                            endDate = endDate)
   ),
   tar_target(
     site_data_01466500,
     download_nwis_site_data(site_num = "01466500",
                             parameterCd = parameterCd,
                             startDate = startDate,
-                            endDate = endDate,
-                            out_file = sprintf('1_fetch/out/nwis_%s_data.csv', '01466500'))
+                            endDate = endDate)
   ),
   tar_target(
     # Merge data from all sites
     site_data_csv,
-    bind_site_data(in1 = site_data_01427207, 
-                   in2 = site_data_01432160,
-                   in3 = site_data_01436690,
-                   in4 = site_data_01466500,
-                   out_file = "1_fetch/out/nwis_site_data.csv"),
+    bind_site_data(out_file = "1_fetch/out/nwis_site_data.csv",
+                   in_data = bind_rows(site_data_01427207, 
+                                       site_data_01432160,
+                                       site_data_01436690,
+                                       site_data_01466500)),
     format = "file"
   ),
   tar_target(
     # Download pertinent site information for each site
     site_info_csv,
-    nwis_site_info(fileout = "1_fetch/out/site_info.csv", 
+    nwis_site_info(out_file = "1_fetch/out/site_info.csv", 
                    site_data_file = site_data_csv),
     format = "file"
   )
@@ -72,10 +68,10 @@ p1_targets_list <- list(
 # Process and annotate site_data
 p2_targets_list <- list(
   tar_target(
-    site_data_styled_Rdata,
+    site_data_styled_rds,
     process_data(site_data_file = site_data_csv, 
                  site_info_file = site_info_csv,
-                 out_file = "2_process/out/processed_data.Rdata"),
+                 out_file = "2_process/out/processed_data.rds"),
     format = "file"
   )
 )
@@ -84,8 +80,8 @@ p2_targets_list <- list(
 p3_targets_list <- list(
   tar_target(
     figure_1_png,
-    plot_nwis_timeseries(fileout = "3_visualize/out/figure_1.png", 
-                         in_file = site_data_styled_Rdata),
+    plot_nwis_timeseries(out_file = "3_visualize/out/figure_1.png", 
+                         in_file = site_data_styled_rds),
     format = "file"
   )
 )
