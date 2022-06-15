@@ -15,7 +15,6 @@ download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, o
   }
   # -- end of do-not-edit block
   
- readr::write_csv(data_out, file = file.path(out_file))
- return(out_dir)
+ return(data_out)
 }
 
