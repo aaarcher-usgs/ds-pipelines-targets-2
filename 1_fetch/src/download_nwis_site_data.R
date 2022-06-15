@@ -3,10 +3,10 @@
 download_nwis_site_data <- function(site_num, parameterCd, startDate, endDate, out_file){
   
   # readNWISdata is from the dataRetrieval package
-  data_out <- readNWISdata(sites=site_num, service="iv", 
-                           parameterCd = parameterCd, 
-                           startDate = startDate, 
-                           endDate = endDate)
+  data_out <- dataRetrieval::readNWISdata(sites=site_num, service="iv", 
+                                          parameterCd = parameterCd, 
+                                          startDate = startDate, 
+                                          endDate = endDate)
 
   # -- simulating a failure-prone web-sevice here, do not edit --
   set.seed(Sys.time())
