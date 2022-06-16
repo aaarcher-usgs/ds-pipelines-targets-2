@@ -1,10 +1,11 @@
 library(targets)
-source("1_fetch.R")
-source("2_process.R")
-source("3_visualize.R")
 
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c("tidyverse", "dataRetrieval")) # Loading tidyverse because we need dplyr, ggplot2, readr, stringr, and purrr
+
+source("1_fetch.R")
+source("2_process.R")
+source("3_visualize.R")
 
 # Global parameters
 parameterCd <- '00010'

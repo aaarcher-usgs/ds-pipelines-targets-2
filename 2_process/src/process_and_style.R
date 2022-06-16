@@ -2,8 +2,6 @@
 # and then cleans up several variables in preparation for plotting
 process_data <- function(site_data_file, site_info_file, out_file){
   
-  require(tidyverse)
-  
   # Read site info from csv 
   site_info <- readr::read_csv(site_info_file, show_col_types = F)
   
